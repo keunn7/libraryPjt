@@ -53,7 +53,7 @@
 		</div>
 		<!-- /SECTION -->
 	<jsp:include page="../include/footer.jsp"/>
-	
+	<script src="<c:url value='/resources/js/validation.js'/>"></script>
 	<script>
 	const form = document.getElementById("joinFrm");
 	form.addEventListener('submit', (e) => {
@@ -66,6 +66,11 @@
 		});
 		// 단순 객체화된 form 정보를 JSON으로 변경
 		const json = JSON.stringify(object);
+		
+		
+		//유효성 검사
+		let vali_check = valiCheckJoin(form);
+		if(vali_check == true){
 		// fetch 비동기 통신으로 회원 정보 insert
 		fetch('/join',{
 			method: 'post',
@@ -93,7 +98,13 @@
 				});
 			}				
 		})
-	});
+
+		}
+		});
+			
+		
+		
+		
 </script>
 	
 </body>

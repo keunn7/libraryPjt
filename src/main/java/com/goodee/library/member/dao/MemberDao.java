@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.goodee.library.member.dto.MemberDto;
@@ -19,6 +20,9 @@ public class MemberDao {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	private final String namespace ="com.goodee.library.memberMapper.";
 	
@@ -46,6 +50,8 @@ public class MemberDao {
 		LOGGER.info("회원정보 데이터베이스 추가");
 		int result = 0; 
 		try {
+			//바깥부터-> 괄호 순서로 실행됨
+			dto.setM_pw(passwordEncoder.encode(dto.getM_pw()));
 			result = sqlSession.insert(namespace +"createMember", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
