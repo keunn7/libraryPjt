@@ -53,5 +53,48 @@
 		</div>
 		<!-- /SECTION -->
 	<jsp:include page="../include/footer.jsp"/>
+	
+	<script>
+	const form = document.getElementById("joinFrm");
+	form.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const payload = new FormData(form);
+		// new FormData를 단순 객체로 변경
+		let object = {};
+		payload.forEach(function(value, key){
+		    object[key] = value;
+		});
+		// 단순 객체화된 form 정보를 JSON으로 변경
+		const json = JSON.stringify(object);
+		// fetch 비동기 통신으로 회원 정보 insert
+		fetch('/join',{
+			method: 'post',
+			headers : {
+				"Content-Type": "application/json;charset=utf-8",
+				"Accept": "application/json"
+			},
+			body:json
+		})
+		.then(response => response.json())
+		.then(data =>{
+			if(data.res_code == '200'){
+				Swal.fire({
+				  icon: 'success',
+				  title: '성공' ,
+				  text: '구디 도서관에 오신걸 환영합니다.'
+				}).then((result)=>{
+					location.href='/';
+				});
+			} else{
+				Swal.fire({
+				  icon: 'error',
+				  title: '실패' ,
+				  text: data.res_msg
+				});
+			}				
+		})
+	});
+</script>
+	
 </body>
 </html>

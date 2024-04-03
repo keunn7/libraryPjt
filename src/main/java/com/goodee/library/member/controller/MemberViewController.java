@@ -16,7 +16,7 @@ public class MemberViewController {
 	public String openJoin(){
 		LOGGER.info("회원가입");
 		return "member/join";
-		
+
 	}
 }
 
